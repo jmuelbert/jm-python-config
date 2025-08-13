@@ -6,8 +6,8 @@ requires = ["hatchling>=1.27.0"]
 build-backend = "hatchling.build"
 
 [project]
-name = "checkconnect"
-dynamic = ["version"]
+name = "jm-python-config"
+version="0.0.2"
 description = "Checks the availability of web addresses and NTP servers."
 readme = "README.md"
 requires-python = ">=3.11, <3.14"
@@ -42,10 +42,12 @@ classifiers = [
 ]
 # Keywords description: https://python-poetry.org/docs/pyproject/#keywords
 keywords = [
-  "checkconnect",
-  "network monitoring",
-  "website monitoring",
-  "network tools",
+  "config",
+  "configuration",
+  "configuration-management",
+  "logging",
+  "structlog logging",
+  "translate",
   "python-tool"
 ]
 
@@ -53,41 +55,30 @@ dependencies = [
   "typer>=0.15.3,<0.16",
   "rich>=14.0.0,<15.0.0",
   "requests>=2.32.3,<3.0.0",
-  "ntplib>=0.4.0,<0.5.0",
-  "weasyprint>=64.1,<65.0",
-  "PySide6>=6.8,<6.9.0",
   "structlog>25.2.0,<26.0.0",
   "tomli-w>=1.2.0,<=2.0.0",
   "platformdirs>=4.3.7,<5.0.0",
   "pydantic>=2.11.4,<3.0.0",
-  "requests",
-  "git+https://github.com/jmuelbert/jm-python-config.git@main"
 ]
 
 
 [project.urls]
-Homepage = "https://github.com/jmuelbert/checkconnect"
-Documentation = "https://jmuelbert.github.io/checkconnect/"
-Repository = "https://github.com/jmuelbert/checkconnect.git"
-Issues = "https://github.com/jmuelbert/checkconnect/issues"
-Changelog = "https://github.com/jmuelbert/checkconnect/blob/main/CHANGELOG.md"
-Source = "https://github.com/jmuelbert/checkconnect"
-
-[tool.hatch.version]
-path = "src/checkconnect/__about__.py"
+Homepage = "https://github.com/jmuelbert/jm-python-config"
+Documentation = "https://jmuelbert.github.io/jm-python-config/"
+Repository = "https://github.com/jmuelbert/jm-python-config.git"
+Issues = "https://github.com/jmuelbert/jm-python-config/issues"
+Changelog = "https://github.com/jmuelbert/jm-python-config/blob/main/CHANGELOG.md"
+Source = "https://github.com/jmuelbert/jm-python-config"
 
 [tool.hatch.envs.default]
 installer = "uv"
 
-[tool.hatch.entry_points."console_scripts"]
-checkconnect = "checkconnect.__main__:app"
-checkconnect_gui = "checkconnect.__main__:app --gui"
 
 [tool.hatch.metadata]
 allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/checkconnect"]
+packages = ["src/config"]
 macos-max-compat = true
 
 [tool.hatch.build.targets.sdist]
@@ -98,11 +89,6 @@ include = [
   "pyproject.toml"
   ]
 
-[tool.setuptools.package-data]
-"checkconnect" = [
-    "locales/*/LC_MESSAGES/*.mo",
-    "config.toml"
-]
 
 [[tool.hatch.envs.test.matrix]]
 python = ["3.11", "3.12", "3.13"]
@@ -119,18 +105,15 @@ dependencies = [
   "coverage[toml]>=7.4.3",
   "pytest>=8.2.1",
   "pytest-mock>=3.14.0",
-  "pytest-qt>=4.4.0",
   "pytest-cov>=4.1.0",
   "pytest-timeout>=2.3.1",
   "pytest-randomly>=3.15.0",
   "fastapi>=0.115.8",
-  "httpx>=0.28.1",
   "typeguard>=4.1.5",
   "xdoctest>=0.15.10",
   "pytest-randomly>=3.15.0",
   "pytest-sugar>=1.0.0",
   "pylint-pytest>=1.1.2",
-  "beautifulsoup4>=4.13.4"
 ]
 
 [tool.hatch.envs.test.scripts]
@@ -161,7 +144,7 @@ license = "reuse lint"
 precommit = "pre-commit run --all-files"
 
 # PySide6 specific lint
-pyside6-lint = "pyside6-qmllint src/checkconnect/qml/**"
+pyside6-lint = "pyside6-qmllint src/jm-python-config/qml/**"
 
 # Aggregate linting tasks
 all = ["style", "typing", "lint", "spelling", "license"]
@@ -213,8 +196,8 @@ serve = "mkdocs serve --dev-addr localhost:8090 {args}"
 [tool.coverage.run]
 branch = true
 parallel = true
-source_pkgs = ["checkconnect", "tests"]
-omit = ["src/checkconnect/__about__.py"]
+source_pkgs = ["jm-python-config", "tests"]
+omit = ["src/jm-python-config/__about__.py"]
 
 [tool.coverage.report]
 exclude_lines = [
@@ -237,7 +220,7 @@ extend = "ruff.toml"
 # Ensure imports are organized consistently.
 # Replace "your_package_name" with the actual top-level package name(s) of your project.
 # This helps isort correctly group your internal imports.
-known-first-party = ["checkconnect"]
+known-first-party = ["jm-python-config"]
 combine-as-imports = true # Combine imports like `import os, sys` into `import os; import sys`
 force-single-line = false # Set to true if you prefer all imports on a single line
 
@@ -279,35 +262,6 @@ markers = [
     "smoke: mark a test as a smoke test",
     "regression: mark a test as a regression test",
 ]
-
-[tool.pyside6-project]
-files = [
-    "src/checkconnect/gui/gui.py",
-    "src/checkconnect/gui/checkconnect_gui.py",
-    "src/checkconnect/gui/resources.qrc",
-]
-translations = [
-    "src/checkconnect/gui/translations/en.ts",
-    "src/checkconnect/gui/translations/es.ts",
-    "src/checkconnect/gui/translations/fr.ts",
-    "src/checkconnect/gui/translations/de.ts",
-    "src/checkconnect/gui/translations/it.ts",
-    "src/checkconnect/gui/translations/pt.ts",
-    "src/checkconnect/gui/translations/pt_BR.ts",
-    "src/checkconnect/gui/translations/ru.ts",
-    "src/checkconnect/gui/translations/zh_CN.ts",
-    "src/checkconnect/gui/translations/zh_TW.ts",
-    "src/checkconnect/gui/translations/ja.ts",
-    "src/checkconnect/gui/translations/ko.ts",
-    "src/checkconnect/gui/translations/hi.ts",
-    "src/checkconnect/gui/translations/tr.ts",
-    "src/checkconnect/gui/translations/ar.ts",
-    "src/checkconnect/gui/translations/vi.ts",
-    "src/checkconnect/gui/translations/pl.ts",
-    "src/checkconnect/gui/translations/nl.ts",
-    "src/checkconnect/gui/translations/sv.ts",
-]
-
 
 [tool.yamllint]
 extends = "default"
@@ -390,7 +344,7 @@ skip = """
     *.pyc
 """
 ignore-words-list = """
-    checkconnect,pyside,pytest,pyqt,qtodotxt,
+    jm-python-config,pyside,pytest,pyqt,qtodotxt,
     args,kwargs,repr,str,int,bool,dict,lst,idx,
     varchar,uuid,datetime,
     qml,qmake,qrc,uic,rcc,
