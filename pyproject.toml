@@ -1,0 +1,430 @@
+# SPDX-License-Identifier: EUPL-1.2
+# SPDX-FileCopyrightText: 2023-present Jürgen Mülbert <juergen.muelbert@outlook.de>
+#
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "checkconnect"
+dynamic = ["version"]
+description = "Checks the availability of web addresses and NTP servers."
+readme = "README.md"
+requires-python = ">=3.11, <3.14"
+license = "EUPL-1.2"
+authors = [{ name = "Jürgen Mülbert", email = "juergen.muelbert@outlook.de" }]
+# Pypi classifiers: https://pypi.org/classifiers/
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Environment :: Console",
+  "Intended Audience :: End Users/Desktop",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Information Technology",
+  "License :: OSI Approved :: European Union Public Licence 1.2 (EUPL 1.2)",
+  "Operating System :: OS Independent",
+  "Operating System :: MacOS",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX",
+  "Operating System :: Unix",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+  "Topic :: Internet",
+  "Topic :: Internet :: WWW/HTTP",
+  "Topic :: Software Development :: Testing",
+  "Topic :: System :: Monitoring",
+  "Topic :: Desktop Environment",
+  "Topic :: Software Development :: Libraries :: Application Frameworks",
+  "Topic :: Software Development :: User Interfaces"
+]
+# Keywords description: https://python-poetry.org/docs/pyproject/#keywords
+keywords = [
+  "checkconnect",
+  "network monitoring",
+  "website monitoring",
+  "network tools",
+  "python-tool"
+]
+
+dependencies = [
+  "typer>=0.15.3,<0.16",
+  "rich>=14.0.0,<15.0.0",
+  "requests>=2.32.3,<3.0.0",
+  "ntplib>=0.4.0,<0.5.0",
+  "weasyprint>=64.1,<65.0",
+  "PySide6>=6.8,<6.9.0",
+  "structlog>25.2.0,<26.0.0",
+  "tomli-w>=1.2.0,<=2.0.0",
+  "platformdirs>=4.3.7,<5.0.0",
+  "pydantic>=2.11.4,<3.0.0",
+  "requests",
+  "git+https://github.com/jmuelbert/jm-python-config.git@main"
+]
+
+
+[project.urls]
+Homepage = "https://github.com/jmuelbert/checkconnect"
+Documentation = "https://jmuelbert.github.io/checkconnect/"
+Repository = "https://github.com/jmuelbert/checkconnect.git"
+Issues = "https://github.com/jmuelbert/checkconnect/issues"
+Changelog = "https://github.com/jmuelbert/checkconnect/blob/main/CHANGELOG.md"
+Source = "https://github.com/jmuelbert/checkconnect"
+
+[tool.hatch.version]
+path = "src/checkconnect/__about__.py"
+
+[tool.hatch.envs.default]
+installer = "uv"
+
+[tool.hatch.entry_points."console_scripts"]
+checkconnect = "checkconnect.__main__:app"
+checkconnect_gui = "checkconnect.__main__:app --gui"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/checkconnect"]
+macos-max-compat = true
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "src",
+  "README.md",
+  "LICENSE",
+  "pyproject.toml"
+  ]
+
+[tool.setuptools.package-data]
+"checkconnect" = [
+    "locales/*/LC_MESSAGES/*.mo",
+    "config.toml"
+]
+
+[[tool.hatch.envs.test.matrix]]
+python = ["3.11", "3.12", "3.13"]
+
+[tool.hatch.envs.hatch-test]
+default-args = [""]
+randomize = true
+parallel = true
+# retries = 2
+
+[tool.hatch.envs.test]
+installer = "uv"
+dependencies = [
+  "coverage[toml]>=7.4.3",
+  "pytest>=8.2.1",
+  "pytest-mock>=3.14.0",
+  "pytest-qt>=4.4.0",
+  "pytest-cov>=4.1.0",
+  "pytest-timeout>=2.3.1",
+  "pytest-randomly>=3.15.0",
+  "fastapi>=0.115.8",
+  "httpx>=0.28.1",
+  "typeguard>=4.1.5",
+  "xdoctest>=0.15.10",
+  "pytest-randomly>=3.15.0",
+  "pytest-sugar>=1.0.0",
+  "pylint-pytest>=1.1.2",
+  "beautifulsoup4>=4.13.4"
+]
+
+[tool.hatch.envs.test.scripts]
+test = "pytest tests/ {args}"
+cov = "pytest --cov --cov-report term-missing:skip-covered --cov-report xml --cov-report html --cov=src tests/"
+typeguard = "pytest --typeguard-packages=src"
+doctest = "pytest --doctest-modules"
+
+[tool.hatch.envs.lint]
+installer = "uv"
+dependencies = [
+  "pre-commit>=3.6.0",
+  "pylint>=3.0.0",
+  "codespell>=2.3.0",
+  "reuse>=5.0.2",
+  "pyright>=1.1.350"
+]
+
+[tool.hatch.envs.lint.scripts]
+# Combined style linting
+check = "ruff check ."
+fix = "ruff check . --fix"
+style = ["ruff check .", "ruff format --check ."]
+typing = "pyright"
+lint = "pylint scripts src tests"
+spelling = "codespell -w ."
+license = "reuse lint"
+precommit = "pre-commit run --all-files"
+
+# PySide6 specific lint
+pyside6-lint = "pyside6-qmllint src/checkconnect/qml/**"
+
+# Aggregate linting tasks
+all = ["style", "typing", "lint", "spelling", "license"]
+
+[tool.hatch.envs.security]
+installer = "uv"
+dependencies = ["bandit[toml]>=1.7.8" ]
+
+[tool.hatch.envs.security.scripts]
+bandit-scan = "bandit -r src -ll"
+all = ["bandit-scan"]
+
+[tool.hatch.envs.translate]
+installer = "uv"
+dependencies = [
+"babel>=2.0.0",
+]
+
+[tool.hatch.envs.docs]
+installer = "uv"
+dependencies = [
+  "mkdocs>=1.6.1,<1.7",
+  "mkdocs-material[imaging]>=9.6.7,<9.7",
+  "mkdocs-static-i18n>=1.3.0,<1.4",
+  "mkdocs-awesome-pages-plugin>=2.10.1,<2.20",
+  "mkdocs-click>=0.8.1,<0.9",
+  "mkdocs-minify-plugin>=0.8.0,<0.9",
+  "mkdocs-mermaid2-plugin>=1.2.0,<1.3",
+  "mkdocs-git-revision-date-localized-plugin>=1.3.0,<1.4",
+  "mkdocs-glightbox>=0.4.0,<0.5",
+  "mkdocs-linkcheck>=1.0.6,<1.1",
+  "mkdocs-section-index>=0.3.0,<0.4",
+  "mike>=2.1.3,<2.2",
+  "mkdocstrings-python>=1.16.2,<1.17.0",
+  "pymdown-extensions>=10.14,<10.15",
+  "griffe>=1.6.0,<1.7.0",
+  "pyaml>=20.0.0",
+  "babel>=2.0.0",
+]
+
+[tool.hatch.envs.docs.scripts]
+qualitycheck = "python scripts/doc_quality.py"
+prettify = "hatch run python -m json.tool --sort-keys --no-indent ./site/search/search_index.json ./site/search/search_index.json"
+validate-links = "mkdocs linkcheck"
+build-only = ["mkdocs build --clean {args}"]
+build = ["build-only {args}", "prettify"]
+serve = "mkdocs serve --dev-addr localhost:8090 {args}"
+
+[tool.coverage.run]
+branch = true
+parallel = true
+source_pkgs = ["checkconnect", "tests"]
+omit = ["src/checkconnect/__about__.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "def __repr__",
+  "if self.debug:",
+  "raise NotImplementedError",
+  "if __name__ == .__main__.:",
+  "pass",
+  "raise ImportError",
+]
+fail_under = 90
+show_missing = true
+
+# Point Ruff to the external configuration file
+[tool.ruff]
+extend = "ruff.toml"
+
+[tool.ruff.lint.isort]
+# Ensure imports are organized consistently.
+# Replace "your_package_name" with the actual top-level package name(s) of your project.
+# This helps isort correctly group your internal imports.
+known-first-party = ["checkconnect"]
+combine-as-imports = true # Combine imports like `import os, sys` into `import os; import sys`
+force-single-line = false # Set to true if you prefer all imports on a single line
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.bandit]
+exclude_dirs = ["tests", "scripts"]
+targets = ["src"]
+
+[tool.bandit.assert_used]
+skips = ["*_test.py", "*/test_*.py"]
+
+[tool.gitleaks]
+enable-rules = ["generic-api-key", "python-password", "pyside-secret"]
+allow-paths = ["assets/translations/**", "LICENSES/**", "tests/**"]
+
+[tool.markdownlint]
+config_file = ".markdownlint.json" # Specify the config file
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = ["-ra", "--strict-markers", "--strict-config", "--doctest-modules"]
+testpaths = ["tests"]
+filterwarnings = [
+    "error",
+    # "ignore:ResourceWarning:",
+    # "ignore::pytest_mock.plugin.PytestMockWarning",
+]
+markers = [
+    "unit: mark a test as a unit test",
+    "integration: mark a test as an integration test",
+    "e2e: mark a test as an end-to-end test",
+    "component: mark a test as a component test",
+    "slow: mark a test as slow",
+    "smoke: mark a test as a smoke test",
+    "regression: mark a test as a regression test",
+]
+
+[tool.pyside6-project]
+files = [
+    "src/checkconnect/gui/gui.py",
+    "src/checkconnect/gui/checkconnect_gui.py",
+    "src/checkconnect/gui/resources.qrc",
+]
+translations = [
+    "src/checkconnect/gui/translations/en.ts",
+    "src/checkconnect/gui/translations/es.ts",
+    "src/checkconnect/gui/translations/fr.ts",
+    "src/checkconnect/gui/translations/de.ts",
+    "src/checkconnect/gui/translations/it.ts",
+    "src/checkconnect/gui/translations/pt.ts",
+    "src/checkconnect/gui/translations/pt_BR.ts",
+    "src/checkconnect/gui/translations/ru.ts",
+    "src/checkconnect/gui/translations/zh_CN.ts",
+    "src/checkconnect/gui/translations/zh_TW.ts",
+    "src/checkconnect/gui/translations/ja.ts",
+    "src/checkconnect/gui/translations/ko.ts",
+    "src/checkconnect/gui/translations/hi.ts",
+    "src/checkconnect/gui/translations/tr.ts",
+    "src/checkconnect/gui/translations/ar.ts",
+    "src/checkconnect/gui/translations/vi.ts",
+    "src/checkconnect/gui/translations/pl.ts",
+    "src/checkconnect/gui/translations/nl.ts",
+    "src/checkconnect/gui/translations/sv.ts",
+]
+
+
+[tool.yamllint]
+extends = "default"
+strict = true
+ignore = [".github/workflows/", "LICENSES/", "assets/translations/"]
+
+[tool.yamllint.rules]
+braces = { max-spaces-inside = 1, min-spaces-inside = 0 }
+brackets = { max-spaces-inside = 1, min-spaces-inside = 0 }
+colons = { max-spaces-after = 1, min-spaces-after = 1 }
+commas = { max-spaces-after = 1, min-spaces-after = 0 }
+document-start = "enable"
+empty-lines = { max-end = 0, max-start = 0 }
+indentation = { spaces = 2, check-multi-line-strings = true }
+key-duplicates = "enable"
+line-length = { max = 100, allow-non-breakable-inline-mappings = true }
+new-lines = { type = "unix" }
+trailing-spaces = "enable"
+truthy = { allowed-values = ["true", "false"] }
+comments = { level = "warning", require-explanation = false, min-spaces-from-content = 1 }
+quoted-strings = { quote-type = "double", required = false }
+empty-values = { forbid-in-inline = true }
+
+[tool.pylint]
+max-line-length = 120
+good-names = ["i", "j", "k", "ex", "Run", "_"]
+max-args = 5
+max-attributes = 7
+max-bool-expr = 5
+max-branches = 12
+max-locals = 15
+max-parents = 7
+max-public-methods = 20
+max-returns = 6
+max-statements = 50
+min-public-methods = 2
+
+[tool.pyright]
+# Specify the directories or files to check
+include = [
+    "scripts",
+    "src",
+    "tests"
+]
+
+# Exclude specific files or directories
+exclude = [
+    "tests/**/*.py",  # Exclude test files if you don't want to check them
+    "src/some_module.py"  # Exclude specific files
+]
+
+# Specify type checking mode
+typeCheckingMode = "strict"  # Options: "off", "basic", "strict"
+
+# Specify additional options
+reportMissingImports = true
+reportUnusedImports = true
+reportUnusedFunction = true
+reportUnusedVariable = true
+reportGeneralTypeIssues = true
+
+[tool.codespell]
+skip = """
+    .git,
+    .venv,
+    *.png,
+    *.gif,
+    *.jpg,
+    *.svg,
+    *.ui,
+    *.qrc,
+    *.ts,
+    LICENSE,
+    LICENSES/*,
+    dist/*,
+    build/*,
+    site/assets/javascripts/*
+    site/assets/stylesheets/
+    __pycache__/*,
+    *.pyc
+"""
+ignore-words-list = """
+    checkconnect,pyside,pytest,pyqt,qtodotxt,
+    args,kwargs,repr,str,int,bool,dict,lst,idx,
+    varchar,uuid,datetime,
+    qml,qmake,qrc,uic,rcc,
+    conf,config,dev,docs,env,lib,pkg,src,tmp,utils,
+    qabstractitemmodel,qaction,qapplication,qcombobox,
+    qdialog,qicon,qlabel,qlayout,qlineedit,qmainwindow,
+    qmenu,qmenubar,qmessagebox,qobject,qpushbutton,
+    qspinbox,qstandarditem,qstandarditemmodel,qstatusbar,
+    qtableview,qtoolbar,qwidget,shiboken
+"""
+check-filenames = true
+check-hidden = false
+quiet-level = 3
+count = true
+
+[tool.proselint]
+max-line-length = 120
+checks = [
+  "typography.diacritical_marks",
+  "typography.exclamation",
+  "typography.quotes",
+  "misc.annotations",
+  "misc.link_review",
+  "security.password",
+  "spelling.able_atable",
+  "spelling.able_ible",
+  "spelling.athletes",
+  "spelling.em_im_en_in",
+  "spelling.er_or",
+  "spelling.in_un",
+  "spelling.misc",
+  "consistency.spacing",
+  "consistency.spelling",
+]
+
+[tool.xdoctest]
+style = "google"

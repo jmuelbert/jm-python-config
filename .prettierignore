@@ -1,0 +1,18 @@
+---
+# SPDX-License-Identifier: EUPL-1.2
+# SPDX-FileCopyrightText: 2023-present Jürgen Mülbert <juergen.muelbert@outlook.de>
+#
+# Prettier configuration file for ignoring paths.
+#
+# For more information, visit https://prettier.io/docs/en/ignore.html.
+
+LICENSE
+LICENSES/**
+src/checkconnect/gui/locales
+benchmark/
+dist/
+build/
+**/*.pyc
+**/.*egg-info
+cspell.config.yaml
+pnpm-lock.yaml

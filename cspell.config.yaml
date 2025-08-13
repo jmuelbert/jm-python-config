@@ -1,0 +1,55 @@
+---
+version: "0.2"
+language: en
+files:
+  - "**/*.md"
+words:
+  - jmuelbert
+  - Jürgen
+  - Mülbert
+  - checkconnect
+  - Astro
+  - astrojs
+  - DALL
+  - fpdf
+  - ntplib
+  - ntps
+  - tseslint
+  - typerx
+flagWords:
+  - xxx
+maxNumberOfProblems: 1000
+import: []
+useGitignore: true
+allowCompoundWords: true
+enableGlobDot: true
+cache:
+  useCache: true
+  cacheStrategy: content
+enableFiletypes:
+  - shellscript
+overrides:
+  - filename: "**.de.md"
+    language: en,de
+  - filename: "**.es.md"
+    language: en,es
+  - filename: "**.it.md"
+    language: en,it
+dictionaries:
+  - project-words
+  - local-german
+  - local-spanish
+  - local-italiano
+  - bash
+  - companies
+  - csharp
+  - css
+  - filetypes
+  - fonts
+  - misc
+  - node
+  - npm
+  - powershell
+  - python
+  - software-terms
+  - typescript

@@ -1,0 +1,218 @@
+---
+# Source: https://github.com/jmuelbert/checkconnect/blob/main/workflow-templates/assets/mkdocs/mkdocs.yml
+# See: https://www.mkdocs.org/user-guide/configuration/
+
+# Project Information
+site_name: checkconnect
+site_url: https://io.github.org/jmuelbert/checkconnect/
+site_description: >-
+  A tester for differt hosts for available.
+# Repository
+repo_name: jmuelbert/checkconnect
+repo_url: https://github.com/jmuelbert/checkconnect/
+edit_uri: blob/main/docs/
+# Copyright
+copyright: Copyright &copy; 2023 - now Jürgen Mülbert
+# Configuration
+docs_dir: docs
+site_dir: site
+theme:
+  logo: assets/images/logo.svg
+  favicon: assets/images/favicon.ico
+  name: material
+  custom_dir: docs/.overrides
+  # Static files
+  static_templates:
+    - 404.html
+  # Default values, taken from mkdocs_theme.yml
+  language: en
+  direction: ltr
+  features:
+    - content.code.copy
+    - content.code.annotate
+    - content.code.select
+    - content.tabs.link
+    - header.autohide
+    - navigation.expand
+    - navigation.top
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.instant
+    # - navigation.indexes
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.footer
+    - search.suggest
+    - toc.follow
+    - toc.integrate
+
+  palette:
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  extra_css:
+    - css/custom.css
+  shortcuts:
+    help: 191 # ?
+    next: 78 # n
+    previous: 80 # p
+    search: 83 # s
+  icon:
+    repo: fontawesome/brands/github-alt
+    logo: material/check-network-outline
+
+# Plugins
+plugins:
+  # Built-in
+  search:
+    lang:
+      - en
+      - de
+      - es
+      - it
+      - zh
+  section-index: {}
+  awesome-pages: {}
+  glightbox: {}
+  mike:
+    alias_type: copy
+  material/social: {}
+  material/tags: {}
+  mkdocstrings:
+    handlers:
+      python:
+        paths: ["src"] # Point to the root 'src' directory
+        options:
+          show_source: false
+          show_root_heading: true
+          show_object_full_path: false
+          show_category_heading: true
+          show_bases: true
+          show_submodules: true  # Crucial for documenting modules
+          show_if_no_docstring: true
+          show_signature: true
+          show_signature_annotations: true
+          heading_level: 2
+          separate_signature: true
+          filters: ["!^_"] # Exclude private methods
+  i18n:
+    docs_structure: suffix
+    fallback_to_default: true
+    reconfigure_material: true
+    reconfigure_search: true
+    languages:
+      - locale: en
+        default: true
+        name: English
+        build: true
+        site_name: "checkconnect documentation"
+      - locale: de
+        name: Deutsch
+        build: true
+        site_name: "checkconnect Dokumentation"
+        nav_translations:
+          Introduction: Einführung
+      - locale: it
+        name: Italiano
+        build: false
+      - locale: es
+        name: Español
+        build: false
+      - locale: "null"
+        name: Help translating
+        fixed_link: https://translate.spaceship-prompt.sh/
+  git-revision-date-localized:
+    type: date
+    strict: false
+    # Required for blog plugin's generated indices
+    fallback_to_build_date: true
+
+# Markdown Extensions
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - codehilite:
+      guess_lang: false
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.snippets:
+      base_path: "."
+      # dedent_subsections: true
+  - pymdownx.inlinehilite
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
+# Customization
+extra:
+  version:
+    provider: mike
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/jmuelbert
+    - icon: fontawesome/brands/gitter
+      link: https://gitter.im/jmuelbert/checkconnect
+    - icon: fontawesome/brands/docker
+      link: https://hub.docker.com/r/jmuelbert/checkconnect/
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/checkconnect/
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/jmuelbert
+watch:
+  - mkdocs.yml
+  - src/
+  - docs/
+
+# Page tree
+nav:
+  - Introduction: index.md
+  - Installation: installation.md
+  - Usage: usage.md
+  - Troubleshooting: troubleshooting.md
+  - License: license.md
+  # - Advanced:
+  - Develop:
+      - Build: developer/build.md
+      - Changelog: developer/changelog.md
+      - API: developer/api-docs.md
+      - Reference: developer/reference.md
+      - Security: developer/security.md
+  - Community:
+      - faq: community/faq.md
+      - Contributing: community/contributing.md
+      - Code of Conduct: community/code_of_conduct.md

@@ -1,0 +1,59 @@
+{
+  "name": "checkconnect",
+  "version": "0.0.0",
+  "description": "Checks the availability of web addresses and NTP servers.",
+  "main": "main.py",
+  "scripts": {
+    "spellcheck": "cspell **",
+    "format": "prettier --write .",
+    "precommit": "lint-staged",
+    "lint": "trunk check",
+    "fmt": "trunk fmt",
+    "sync-labels": "node .github/scripts/sync-labels.js"
+  },
+  "keywords": [
+    "python",
+    "linting",
+    "spellcheck",
+    "prettier"
+  ],
+  "author": "Jürgen Mülbert",
+  "license": "MIT",
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@cspell/dict-de-de": "^4.0.3",
+    "@cspell/dict-python": "^4.2.15",
+    "@trunkio/launcher": "^1.3.4",
+    "@typescript-eslint/eslint-plugin": "8.26.1",
+    "@typescript-eslint/parser": "8.26.1",
+    "chalk": "^4.1.2",
+    "cspell": "^5.21.2",
+    "eslint": "9.22.0",
+    "husky": "9.1.7",
+    "lint-staged": "^12.5.0",
+    "prettier": "3.5.3",
+    "yaml": "^2.7.0"
+  },
+  "files": [
+    "main.py",
+    "src/"
+  ],
+  "private": true,
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*.(js|jsx|ts|tsx|json|css|scss|md)": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "dependencies": {
+    "typescript": "5.8.2"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "default": true,
+  "MD001": { "heading-style": "atx" },
+  "MD003": { "style": "atx" }, // Consistent heading style (ATX: # Headings)
+  "MD004": { "style": "dash" }, // Consistent unordered list style (dash: - Items)
+  "MD007": { "indent": 4, "ul_indent": 2 }, // Indentation: 4 spaces, unordered list: 2 spaces
+  "MD009": { "br_spaces": 2 }, // Consistent line breaks (2 spaces at end of line)
+  "MD013": { "line_length": 80, "tables": false }, // Line length: 80 characters, allow long lines in tables
+  "MD024": { "siblings_only": true }, // Prevent duplicate heading names (siblings only)
+  "MD029": { "style": "one_or_ordered" }, // Consistent ordered list numbering (1 or ordered)
+  "MD030": { "ul_single": 1, "ol_single": 1, "ul_multi": 1, "ol_multi": 1 }, // Spacing after list markers
+  "MD033": false, // Allow inline HTML
+  "MD041": false, // First line should be a top-level heading
+  "no-hard-tabs": true, // Enforce spaces instead of tabs
+
+  // Custom rules (adjust to your needs)
+  "MD012": false, // Multiple consecutive blank lines (can be useful for visual separation)
+  "MD026": { "punctuation": ".,;:!" }, // Punctuation at the end of sentences
+  "MD032": true, // Lists should be surrounded by blank lines
+  "MD034": false // Bare URL used (can be useful but noisy)
+}

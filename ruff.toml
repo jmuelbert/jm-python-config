@@ -1,0 +1,77 @@
+# The target Python version. Ruff will infer this from your `requires-python`
+# in `[project]` if not specified, but it's good to be explicit.
+# Set this to the minimum Python version your project supports.
+target-version = "py312"
+
+# Your preferred line length. Ruff will enforce this.
+line-length = 120
+
+
+[format]
+preview = true
+docstring-code-format = true
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "lf"
+
+[lint]
+# Select all available rules and then explicitly ignore those not desired.
+# This ensures new rules are automatically picked up unless ignored.
+select = ["ALL"]
+
+# Rules to ignore.
+ignore = [
+    # Docstring rules (D): Generally ignored for brevity or handled by other tools.
+    "D100", "D101", "D103", "D104", "D105", "D107", # Missing docstrings
+    "D203", "D212", "D213", # Blank lines/summary position
+    "D406", "D407", "D413", "D416", "D417", # Section formatting/missing descriptions
+
+    # Type annotation rules (ANN): Rely on dedicated type checker (e.g., MyPy).
+    "ANN401", # Disallowed Any
+
+    # Pylint rules (PL):
+    "PLR0913", # Too many arguments
+    "PLR0911", # Too many return statements
+    "PLR0912", # Too many branches (complexity, covered by C901 often)
+    "PLW0603", # Using the global statement
+    "PLR0402", # Consider using a generator instead of a list comprehension
+    "PLW2901", # Loop variable `X` overwritten by assignment
+    "PLW1514", # Using `open` without explicit encoding
+    "PLW0120", # Else clause on loop without a break statement
+    "PLW0602", # Using `global` statement
+
+    # Security rules (S): High false positive rates for linting; prefer dedicated security scanners.
+    "S101", # Use of `assert`
+    "S301", "S307", "S311", # Insecure modules/functions (pickle, eval, random)
+    "S603", "S607", "S608", "S609", "S701", # Subprocess, hardcoded password, yaml.load
+
+    # Other common ignores (often handled by formatter, or subjective):
+    "E501",   # Line too long (handled by `ruff format`)
+    "COM812", # Missing trailing comma (handled by `ruff format`)
+    "ISC001", # Implicit string concatenation (handled by `ruff format`)
+    "W191",   # Indentation contains tabs (formatter ensures spaces)
+    "ERA001", # Commented out code
+    "UP006",  # dict.keys() == other_dict.keys() should be dict.keys() == other_dict.keys()
+    # If you want to enable these, remove from ignore:
+    # "UP007", # Use X | Y for type hints in Python 3.10+
+    # "UP009", # Use `X` instead of `typing.X`
+    # "UP010", # Unnecessary `else` after `return`
+    # "UP038", # `f""` instead of `"{}".format()`
+    # "UP039", # Use `tuple` instead of `(X,)` for single-element tuples
+    # "UP040", # Use `.` instead of `os.path.join`
+    # "UP041", # Use `Path.joinpath` instead of `Path / "child"`
+    # Pytest rules (PT): Ignore if you prefer non-snake_case for fixtures.
+    "PT006", "PT007", "PT013", "PT015",
+
+    # Relative imports (TID252): Can be useful in some package structures.
+    "TID252",
+    "Q000", # This one is often specific and might not be universally applicable for ignoring.
+]
+
+[lint.per-file-ignores]
+"__init__.py" = ["F401", "D"]
+"**/migrations/*.py" = ["F401", "E501", "D", "PL"]
+"tests/*.py" = ["S101", "D", "ANN"]
+"scripts/*.py" = ["T20"]
+"resources_rc.py" = ["N802"]
