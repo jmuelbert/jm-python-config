@@ -36,7 +36,7 @@ specifying:
 Example Usage:
 --------------
 ```python
-from checkconnect.config.appcontext import AppContext
+from jm_python_config.appcontext import AppContext
 from checkconnect.config.translation_manager import TranslationManagerSingleton
 from checkconnect.logging_manager import LoggingManagerSingleton
 from pathlib import Path

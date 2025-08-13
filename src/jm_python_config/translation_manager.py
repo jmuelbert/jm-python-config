@@ -33,7 +33,7 @@ from typing import TYPE_CHECKING, ClassVar, Final
 import structlog
 
 from checkconnect.__about__ import __app_name__
-from checkconnect.config.settings_manager import SettingsManagerSingleton
+from jm_python_config.settings_manager import SettingsManagerSingleton
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -185,7 +185,7 @@ class TranslationManager:
             return explicit_lang
 
         try:
-            from checkconnect.config.settings_manager import SettingsManagerSingleton
+            from jm_python_config.settings_manager import SettingsManagerSingleton
 
             settings_lang = SettingsManagerSingleton.get_instance().get_setting("general", "default_language")
             return settings_lang or self._get_system_language() or "en"

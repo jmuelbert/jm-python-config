@@ -25,7 +25,7 @@ Usage Example (within a subcommand):
 -----------------------------------
 ```python
 # In a Typer subcommand, after AppContext is passed via ctx.obj:
-from checkconnect.config.appcontext import AppContext
+from jm_python_config.appcontext import AppContext
 import typer
 
 
@@ -47,14 +47,14 @@ from typing import TYPE_CHECKING
 
 import structlog
 
-from checkconnect.config.settings_manager import SettingsManager
-from checkconnect.config.translation_manager import TranslationManager
+from jm_python_config.settings_manager import SettingsManager
+from jm_python_config.translation_manager import TranslationManager
 
 if TYPE_CHECKING:
     from structlog.stdlib import BoundLogger
 
-    from checkconnect.config.settings_manager import SettingsManager
-    from checkconnect.config.translation_manager import TranslationManager
+    from jm_python_config.settings_manager import SettingsManager
+    from jm_python_config.translation_manager import TranslationManager
 
 # Global logger for main.py (will be reconfigured by LoggingManagerSingleton)
 log: structlog.stdlib.BoundLogger
