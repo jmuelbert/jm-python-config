@@ -78,7 +78,7 @@ installer = "uv"
 allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/config"]
+packages = ["src/jm_python_config"]
 macos-max-compat = true
 
 [tool.hatch.build.targets.sdist]
